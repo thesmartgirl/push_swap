@@ -6,12 +6,13 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:18:05 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/03 19:52:50 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/04 20:03:53 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
+#include <limits.h>
 #include "./libft/libft.h"
 
 typedef struct s_node
