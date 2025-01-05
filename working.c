@@ -6,30 +6,19 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/04 21:02:40 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/05 20:22:41 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-void ft_swap_stack (t_stack *stack_x, char *op)
-{
-    if (!stack_x->top || !stack_x->top->next)
-        return;
-    printf("%s\n", op);
-    void *temp;
-    temp = stack_x->top->content;
-    stack_x->top->content = stack_x->top->next->content;
-    stack_x->top->next->content = temp;
-
-}
 
 void print_stack(t_stack *stack_x)
 {
     t_list *current = stack_x->top;
     while (current) {
-        printf("%d\n", *(int*)current->content);
+        printf("%d\n", *(int *)current->content);
         current = current->next;
     }
     // printf("\n");
@@ -84,50 +73,54 @@ void check_av(char **av)
     }
 }
 
-void	ft_cleanup(char **nums)
+void	clean_array(char **arr)
 {
 	int	i;
 
 	i = 0;
-	if (nums != NULL)
+	if (arr != NULL)
 	{
-		while (nums[i])
-			free(nums[i++]);
-		free(nums);
+		while (arr[i])
+			free(arr[i++]);
+		free(arr);
     }
 }
 
 void ft_stack(t_stack *stack_x, int ac, char **av)
 {
     char **nums;
-    int i = 1;
-    ft_printf("%d\n", ac);
+    int i = 0;
     if (ac == 2)
     {
         nums = ft_split(av[1], ' ');
         while (nums[i])
         {
-            ft_lstadd_front(stack_x->top->content, ft_lstnew(&nums[i]));
+            int nnums = ft_atoi(nums[i]);
+            int *nnnums = malloc(sizeof(int));
+            *nnnums = nnums;
+            ft_lstadd_back(&stack_x->top, ft_lstnew(nnnums));
             i++;
         }
-        ft_cleanup(nums);
+        clean_array(nums);
     }
     else
     {
+        i = 1;
         while(av[i])
         {
             int k = ft_atoi(av[i]);
             int *k_ptr = malloc(sizeof(int));
-             *k_ptr = k;
+            *k_ptr = k;
             // ft_printf("k = %d\n", k);
             // stack_x->top = ft_lstnew(&k);
             // printf("test : %d\n", *(int *)stack_x->top->content);
             // t_list *tmp = ft_lstnew(&k);
             // ft_printf("tmp = %d\n", *(int *)tmp->content);
-            ft_lstadd_front(&stack_x->top, ft_lstnew(k_ptr));
+            ft_lstadd_back(&stack_x->top, ft_lstnew(k_ptr));
             i++;
         }
     }
+    
 }
 
 void check_args(int ac, char **av, t_stack *stack_x)
@@ -142,13 +135,26 @@ void check_args(int ac, char **av, t_stack *stack_x)
     // if (ac > 2)
     //     ft_init_stack(stack_x, 'm');
 }
+void del(void *content)
+{
+    if (content)
+        free(content);  // Free the dynamically allocated content
+}
 
 int main(int ac, char **av)
 {
-    t_stack a;
-    check_args(ac, av, &a);
-    print_stack(&a);
+    t_stack a = {NULL};
+    t_stack b = {NULL};
+    t_list last = {NULL};
     
+    check_args(ac, av, &a);
+    rotate(&a, "ra");
+    // print_stack(&a);
+    // printf("-----------------------------------------------------------------\n");
+    // print_stack(&b);
+
+    ft_lstclear(&b.top, del);
+    ft_lstclear(&a.top, del); 
 
     // a.top = ft_lstnew(&z);
     // a.top->next = ft_lstnew(&b);
@@ -159,7 +165,7 @@ int main(int ac, char **av)
     // stack_a.top = &a1;
     // stack_b.top = NULL;
     // printf("%d\n", *(int*)a.top->content);
-
+    
 
 
 }
