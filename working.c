@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/06 19:13:39 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/07 17:37:57 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,17 @@ void algo(t_stack *a, t_stack *b)
 {
     // 14367
     //
+    int mina = *(int *)a->top->content;
+    int maxa = *(int *)a->top->content;
     while(a->top != NULL && a->top->next != NULL)
     {
-        if (*(int *)a->top->content > *(int *)a->top->next->content)
+        if (*(int *)a->top->content < *(int *)a->top->next->content)
             swap(a, "sa", 1);
         else
             push(a, b, 'b');
         // if(b->top->next != NULL)
         // {
-            if (b->top != NULL && b->top->next != NULL && *(int *)b->top->content < *(int *)b->top->next->content)
+            if (b->top != NULL && b->top->next != NULL && *(int *)b->top->content > *(int *)b->top->next->content)
                 swap(b, "sb", 1);
         // }
     }
@@ -161,33 +163,47 @@ void algo(t_stack *a, t_stack *b)
     push(a, b, 'b');
     printf("last %d\n", last);
     int min = *(int *)b->top->content;
+    int max = *(int *)b->top->content;
     while(b->top != NULL && b->top->next != NULL)
     {
-        if(*(int *)b->top->content > last)
+        // if(*(int *)b->top->content < min)
+        // {
+        //     rotate(b, "rrb", 1);
+        //     min = *(int *)b->top->content;
+        // }
+        if(*(int *)b->top->content > max)
         {
             r_rotate(b, "rrb", 1);
+            max = *(int *)b->top->content;
         }
-        if (*(int *)b->top->content < min)
-        {
-            rotate(b, "rb", 1);
-            min = *(int *)b->top->content;
-        }
-        if (*(int *)b->top->content < *(int *)b->top->next->content)
-            swap(b, "sb", 1);
+        // if (*(int *)b->top->content < min)
+        // {
+        //     rotate(b, "rb", 1);
+        //     min = *(int *)b->top->content;
+        // }
+        if (*(int *)b->top->content > *(int *)b->top->next->content)
+            swap(b, "sb", 0);
         else
             push(a, b, 'a');
-        if (*(int *)b->top->content > *(int *)a->top->content)
+        if (a->top != NULL && (*(int *)b->top->content < *(int *)a->top->content))
         {
-            printf("<push_swap>\n");
+            // printf("<push_swap>\n");
             push(a, b, 'a');
             swap(a,"sa", 1);
-            printf("</push_swap>\n");
+            // printf("</push_swap>\n");
         }
-        if (a->top != NULL && a->top->next != NULL && *(int *)a->top->content > *(int *)a->top->next->content)
-            swap(a, "sa", 1);
+        if (a->top != NULL && a->top->next != NULL && *(int *)a->top->content < *(int *)a->top->next->content)
+            swap(a, "sa", 0);
         // ft_printf("current value  = %d,\n" ,*(int *)b->top->content);
     }
     push(a, b, 'a');
+    while (b->top != NULL)
+    {
+        push(a, b, 'a');
+        if (a->top != NULL && a->top->next != NULL && *(int *)a->top->content < *(int *)a->top->next->content)
+            swap(a, "sa", 0);
+    }
+    
 }
 
 int main(int ac, char **av)
