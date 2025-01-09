@@ -3,36 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   working.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/07 17:37:57 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/08 22:48:18 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
+void algo_alaa_after_stalin(t_stack *a, t_stack *b, int min, int max);
 
 void print_stack(t_stack *stack_x)
 {
     t_list *current = stack_x->top;
     while (current) {
-        printf("%d\n", *(int *)current->content);
+        printf("%d ", *(int *)current->content);
         current = current->next;
     }
-    // printf("\n");
+    printf("\n");
 }
-
-// void ft_init_stack(t_stack *stack_x /* ac av*/)
-// {
-//     int size = ac - 1;
-//     while (size)
-//     {
-//         ft_lstadd_back(stack_x, ft_lstnew(av[size]));
-//         size--;
-//     }
-// }
 
 void ft_close(char *err)
 {
@@ -143,8 +134,6 @@ void del(void *content)
 
 void algo(t_stack *a, t_stack *b)
 {
-    // 14367
-    //
     int mina = *(int *)a->top->content;
     int maxa = *(int *)a->top->content;
     while(a->top != NULL && a->top->next != NULL)
@@ -206,31 +195,244 @@ void algo(t_stack *a, t_stack *b)
     
 }
 
+/*sorts 3 or 4 numbers in descending order*/
+void algo_alaa(t_stack *a, t_stack *b)
+{
+    int min = *(int *)a->top->content;
+    while(a->top != NULL)
+    {
+        if (b->top == NULL)
+            push(a, b, 'b');
+        else
+        {
+            if (*(int *)a->top->content < *(int *)b->top->content)
+            {
+                if(*(int *)a->top->content < min)
+                {
+                    min = *(int *)a->top->content;
+                    push(a, b, 'b');
+                    rotate(b, "rb", 1);
+                }
+                else
+                {
+                    push(a, b, 'b');
+                    swap(b, "sb", 1);
+                }
+            }
+            else
+                push(a, b, 'b');
+        }
+    }
+}
+
+void algo_alaa_5(t_stack *a, t_stack *b)
+{
+    int min = *(int *)a->top->content;
+    while(a->top != NULL)
+    {
+        if (b->top == NULL)
+            push(a, b, 'b');
+        else
+        {
+            if (*(int *)a->top->content < *(int *)b->top->content)
+            {
+                if(*(int *)a->top->content < min)
+                {
+                    min = *(int *)a->top->content;
+                    push(a, b, 'b');
+                    rotate(b, "rb", 1);
+                }
+                else
+                {
+                    // ft_printf("min = %d\n", min);
+                    // ft_printf("a->top = %d\n", *(int *)a->top->content);
+                    // ft_printf("b->top = %d\n", *(int *)b->top->content);
+                    // it is not a new min we need to find it a nice place!!
+                    if ((*(int *)a->top->content - min) > (*(int *)b->top->content - *(int *)a->top->content))
+                    {
+                        //it is closer to the top
+                        push(a, b, 'b');
+                        swap(b, "sb", 1);
+                    }
+                    else
+                    {
+                        //it closer to the min
+                        r_rotate(b, "rrb", 1);
+                        push(a, b, 'b');
+                        rotate(b, "rb", 1);
+                        rotate(b, "rb", 1);                                                
+                    }
+                }
+            }
+            else
+                push(a, b, 'b');
+        }
+    }
+}
+
+/*take 4500 moves to sort 100 numbers, uses pb, rb, rrb only*/
+void algo_alaa_4500(t_stack *a, t_stack *b)
+{
+    int min = *(int *)a->top->content;
+    int c;
+    
+    while(a->top != NULL)
+    {
+        if (b->top == NULL)
+            push(a, b, 'b');
+        else
+        {
+            if (*(int *)a->top->content < *(int *)b->top->content)
+            {
+                if(*(int *)a->top->content < min)
+                {
+                    min = *(int *)a->top->content;
+                    push(a, b, 'b');
+                    rotate(b, "rb", 1);
+                }
+                else
+                {
+                    c = 0;
+                    while(*(int *)b->top->content > *(int *)a->top->content)
+                    {
+                        rotate(b, "rb", 1);
+                        c++;
+                    }
+                    push(a, b, 'b');
+                    while(c > 0)
+                    {
+                       r_rotate(b, "rrb", 1);
+                       c--;
+                    }
+                }
+            }       
+            else
+                push(a, b, 'b');
+        }
+    }
+}
+/*trying a stalin sort, takes 2900 per 100 numbers */
+void algo_alaa_stalin(t_stack *a, t_stack *b)
+{
+    int min = *(int *)a->top->content;
+    int max = *(int *)a->top->content;
+    int b_count = 0;
+    int a_count = 0;
+    int start = *(int *)a->top->content;
+    // ft_printf("start = %d\n", start);
+        // ft_printf("stack a from top = ");
+        // print_stack(a);
+        // ft_printf("stack b from top = ");
+        // print_stack(b);
+    
+    rotate(a, "ra", 1);
+    
+        // ft_printf("stack a from top = ");
+        // print_stack(a);
+        // ft_printf("stack b from top = ");
+        // print_stack(b);
+    while(a->top != NULL && *(int *)a->top->content != start)
+    {
+        a_count++;
+        if(*(int *)a->top->content > max) //correct order keep it in a
+        {
+            // ft_printf("correct\n");
+            max = *(int *)a->top->content;
+            // ft_printf("max = %d\n", max);
+            rotate(a, "ra", 1);
+        }
+        else
+        {
+            // TODO: try to order b from here too
+            // ft_printf("wrong\n");
+            push(a, b, 'b');
+            b_count++;
+        }
+    }
+        ft_printf("stack a from top = ");
+        print_stack(a);
+        ft_printf("found max = %d\n", max);
+        ft_printf("found min = %d\n", min);
+        ft_printf("stack b from top = ");
+        print_stack(b);
+    // if(b_count > a_count)
+        algo_alaa_after_stalin(a, b, min, max);
+    // else   
+    //     algo_alaa_after_stalin(b, a, min, max);
+
+}
+/*after a stalin sort */
+void algo_alaa_after_stalin(t_stack *a, t_stack *b, int min, int max)
+{
+    int c;
+    ft_printf("after_stalin\n");
+    while(b->top != NULL)
+    {   
+        if(*(int *)b->top->content < min)
+        {
+            min = *(int *)b->top->content;
+            push(a, b, 'a');
+            // rotate(a, "ra", 1);
+                // ft_printf("stack a from top = ");
+                // print_stack(a);
+                // ft_printf("stack b from top = ");
+                // print_stack(b);
+        }
+        else 
+        {
+            if(*(int *)b->top->content - min < max - *(int *)b->top->content)
+            {
+                // ft_printf("closer to min, b->top = %d, min=%d, max=%d\n", *(int *)b->top->content, min, max);
+                c = 0;
+                while(*(int *)a->top->content < *(int *)b->top->content)
+                {
+                    rotate(a, "ra", 1);
+                    c++;
+                }
+                push(a, b, 'a');
+                while(c > 0)
+                {
+                r_rotate(a, "rra", 1);
+                c--;
+                }
+            }
+            else
+            {
+                // ft_printf("closer to max\n");
+                r_rotate(a, "rra", 1);
+                c = 0;
+                while(*(int *)a->top->content > *(int *)b->top->content)
+                {
+                    r_rotate(a, "rra", 1);
+                    c++;
+                }
+                rotate(a, "ra", 1);
+                push(a, b, 'a');
+                rotate(a, "ra", 1);
+                while(c > 0)
+                {
+                    rotate(a, "ra", 1);
+                    c--;
+                }
+            }
+        }
+    }
+}
+
 int main(int ac, char **av)
 {
     t_stack a = {NULL};
     t_stack b = {NULL};
     
     check_args(ac, av, &a);
-    // print_stack(&a);
-    // printf("-----------------------------------------------------------------\n");
-    algo(&a, &b);
-    print_stack(&a);
-    // print_stack(&b);
+    
+    algo_alaa_stalin(&a, &b);
+    
+                ft_printf("stack a from top = ");
+                print_stack(&a);
+                ft_printf("stack b from top = ");
+                print_stack(&b);
 
     ft_lstclear(&b.top, del);
     ft_lstclear(&a.top, del); 
-
-    // a.top = ft_lstnew(&z);
-    // a.top->next = ft_lstnew(&b);
-    // a.top->next->next = ft_lstnew(&k);
-    // a.top->next = NULL;
-    // if (*(int*)a.top->content > *(int*)a.top->next->content)
-    //     ft_swap_stack(&a, "sa");
-    // stack_a.top = &a1;
-    // stack_b.top = NULL;
-    // printf("%d\n", *(int*)a.top->content);
-    
-
-
 }
