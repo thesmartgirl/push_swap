@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/08 22:48:18 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/09 13:10:45 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,6 +419,55 @@ void algo_alaa_after_stalin(t_stack *a, t_stack *b, int min, int max)
     }
 }
 
+void algo_alaa_quick(t_stack *a, t_stack *b)
+{
+    int min = *(int *)a->top->content;
+    int pivot = *(int *)a->top->content;
+    int max = *(int *)a->top->content;
+    int b_count = 0;
+    int a_count = 0;
+    int start = *(int *)a->top->content;
+    // ft_printf("start = %d\n", start);
+        // ft_printf("stack a from top = ");
+        // print_stack(a);
+        // ft_printf("stack b from top = ");
+        // print_stack(b);
+    
+    rotate(a, "ra", 1);
+    
+    while(a->top != NULL && *(int *)a->top->content != start)
+    {
+        a_count++;
+        if(*(int *)a->top->content > pivot) //greater than pivot stays in a
+        {
+            // ft_printf("correct\n");
+            if(*(int *)a->top->content > max)
+                max = *(int *)a->top->content;
+            // ft_printf("max = %d\n", max);
+            rotate(a, "ra", 1);
+        }
+        else
+        {
+            // TODO: try to order b from here too
+            // ft_printf("wrong\n");
+            if((b->top == NULL) || (*(int *)a->top->content > *(int *)b->top->content))
+                push(a, b, 'b');
+            else
+            {
+                push(a, b, 'b');
+                swap(b, "sb", 1);
+            }
+            b_count++;
+        }
+    }
+        ft_printf("stack a from top = ");
+        print_stack(a);
+        ft_printf("found max = %d\n", max);
+        ft_printf("found min = %d\n", min);
+        ft_printf("stack b from top = ");
+        print_stack(b);
+}
+
 int main(int ac, char **av)
 {
     t_stack a = {NULL};
@@ -426,12 +475,14 @@ int main(int ac, char **av)
     
     check_args(ac, av, &a);
     
-    algo_alaa_stalin(&a, &b);
+    algo_alaa_quick(&a, &b);
+    rotate(&b, "rb", 1);
+    algo_alaa_quick(&b, &a);
     
-                ft_printf("stack a from top = ");
-                print_stack(&a);
-                ft_printf("stack b from top = ");
-                print_stack(&b);
+                // ft_printf("stack a from top = ");
+                // print_stack(&a);
+                // ft_printf("stack b from top = ");
+                // print_stack(&b);
 
     ft_lstclear(&b.top, del);
     ft_lstclear(&a.top, del); 
