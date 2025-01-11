@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:18:05 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/06 15:39:06 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/11 18:28:59 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,14 @@ void r_rotate(t_stack *x, char *op, int flag);
 void rr(t_stack *a, t_stack *b);
 void swap(t_stack *stack_x, char *op,int flag);
 void ss(t_stack *a, t_stack *b);
+void algo(t_stack *a, t_stack *b);
+void algo_alaa(t_stack *a, t_stack *b);
+void algo_alaa_5(t_stack *a, t_stack *b);
+void algo_alaa_4500(t_stack *a, t_stack *b);
+void algo_alaa_stalin(t_stack *a, t_stack *b);
+void algo_alaa_after_stalin(t_stack *a, t_stack *b, int min, int max);
+void algo_alaa_quick(t_stack *a, t_stack *b);
+void print_stack(t_stack *stack_x);
+void get_all_four_ends(t_stack *a, t_stack *b);
 
 #endif
