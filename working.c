@@ -6,14 +6,12 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/11 18:29:42 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/13 20:35:45 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
-
-void algo_alaa_after_stalin(t_stack *a, t_stack *b, int min, int max);
 
 void print_stack(t_stack *stack_x)
 {
@@ -136,10 +134,13 @@ int main(int ac, char **av)
 {
     t_stack a = {NULL};
     t_stack b = {NULL};
+    int min;
+    int max;
     
     check_args(ac, av, &a);
     
-    algo_alaa(&a, &b);
+    find_limits(a, &min, &max);
+    algo_3moves(&a, &b, min, max);
     
                 ft_printf("stack a from top = ");
                 print_stack(&a);

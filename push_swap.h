@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:18:05 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/11 18:28:59 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/13 20:35:30 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,8 @@ void algo_alaa_after_stalin(t_stack *a, t_stack *b, int min, int max);
 void algo_alaa_quick(t_stack *a, t_stack *b);
 void print_stack(t_stack *stack_x);
 void get_all_four_ends(t_stack *a, t_stack *b);
+void algo_3moves(t_stack *a, t_stack *b, int min, int max);
+void find_limits(t_stack a, int *min, int *max);
+
 
 #endif

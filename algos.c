@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/11 18:28:49 by ataan            ###   ########.fr       */
+/*   Updated: 2025/01/13 20:36:32 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,52 @@ void algo_alaa(t_stack *a, t_stack *b)
         }
     }
 }
+
+void find_limits(t_stack a, int *min, int *max)
+{
+    *min = *(int *)a.top->content;
+    *max = *(int *)a.top->content;
+    while(a.top != NULL)
+    {
+        if (*(int *)a.top->content < *min)
+            *min = *(int *)a.top->content;
+        else if (*(int *)a.top->content > *max)
+            *max = *(int *)a.top->content;
+        a.top = a.top->next;
+    }
+    ft_printf("min = %d, max = %d\n", *min, *max);
+}
+
+/*sorts 3 elements in 3 moves*/
+void algo_3moves(t_stack *a, t_stack *b, int min, int max)
+{
+    if(*(int *)a->top->content == min) // case 1 2 3 & 1 3 2
+    {
+        if((*(int *)a->top->next->content == max))
+        {
+            rotate(a, "ra", 1);
+            swap(a, "sa", 1);
+            r_rotate(a, "rra", 1);
+        }
+        return;
+    }
+    else if(*(int *)a->top->content == max) //case 3 1 2 & 3 2 1
+    {
+        rotate(a, "ra", 1);
+        if(*(int *)a->top->content != min)
+            swap(a, "sa", 1);
+        return;
+    }
+    else //case 2 1 3 & 2 3 1
+    {
+        if(*(int *)a->top->next->content != max)
+            swap(a, "sa", 1);
+        else
+            r_rotate(a, "rra", 1);
+        return;
+    }   
+}
+
 void algo_alaa_5(t_stack *a, t_stack *b)
 {
     int min = *(int *)a->top->content;
