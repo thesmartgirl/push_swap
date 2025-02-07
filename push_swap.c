@@ -3,98 +3,142 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/02 16:18:00 by ataan             #+#    #+#             */
-/*   Updated: 2025/01/03 19:28:08 by ataan            ###   ########.fr       */
+/*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
+/*   Updated: 2025/02/05 18:16:07 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
-void ft_print_stack (t_stack stack_x)
+/*
+    loops through a stack of positive integers to find its maximum,
+    then finds out how many bits are needed to represent it in binary form
+    - works only with positive numbers...
+    - doesn't matter because we normalize data
+*/
+static int	get_max_bits(t_stack *x)
 {
-    t_node *start_node;
-    t_node *current_node;
+	t_list	*current;
+	int		max;
+	int		bits;
 
-    start_node = stack_x.top;
-    current_node = stack_x.top;
-
-    while(1)
-    {
-        printf("%d\n", current_node->data);
-        current_node = current_node->next;
-        if(current_node == start_node)
-            break;
-    }
-    // printf("%d\n", stack_a.top->data);
-    // stack_a.top = a1.next;
-  
-    // while(stack_a.top != &a1)
-    // {
-    //     printf("%d\n", stack_a.top->data);
-    //     stack_a.top = stack_a.top->next;
-    // }
-
+	current = x->top;
+	max = *(int *)current->content;
+	bits = 0;
+	while (current)
+	{
+		if (*(int *)current->content > max)
+			max = *(int *)current->content;
+		current = current->next;
+	}
+	while ((max >> bits) != 0)
+		bits++;
+	return (bits);
 }
 
-void ft_swap_stack (t_stack *stack_x, char *op)
+/*
+    finds the next minimum value of the stack.
+	i.e the next number is ascending order.
+*/
+static t_list	*get_next_min(t_stack *x)
 {
-    // if(stack_x.top == NULL)
-    //     return;
-    // else if (stack_x.top->next == stack_x.top)
-    //     return;
-    // else
-    // {
-        printf("%s\n", op);
-        t_node *node1;
-        t_node *node2;
+	t_list	*current;
+	t_list	*min;
 
-        node1 = stack_x->top;
-        node2 = stack_x->top->next;
-        
+	min = NULL;
+	current = x->top;
+	while (current)
+	{
+		if (current->index == -1)
+		{
+			if (min == NULL)
+				min = current;
+			else if (*(int *)current->content < *(int *)min->content)
+				min = current;
+		}
+		current = current->next;
+	}
+	return (min);
+}
 
-        // stack_x->top = stack_x->top->next;
-        // //  ----> top = a2
-        // stack_x->top->next = stack_x->top->previous;
-        // // ---->  a2.next = a2.prev = a1
-        // stack_x->top->previous = stack_x->top->next->previous;
-        // // ----> a2.prev = a1.prev = a3
-
-        // stack_x->top->next->next = stack_x->top->next->previous;
-        // stack_x->top->next->previous = stack_x->top;
-    // }   
+/*
     
-}
-
-int main(/*int ac, char **av*/)
+*/
+void	normalize_stack_range(t_stack *x)
 {
-    t_stack stack_a;
-    t_stack stack_b;
-    t_node a1;
-    t_node a2;
-    t_node a3;
+	t_list	*current;
+	int		index;
 
-    a1.data = 2;
-    a1.next = &a2;
-    a1.previous = &a3;
-
-    a2.data = 1;
-    a2.next = &a3;
-    a2.previous = &a1;
-
-    a3.data = 3;
-    a3.previous = &a2;
-    a3.next = &a1;
-
-    stack_a.top = &a1;
-    stack_b.top = NULL;
-
-    if(stack_a.top->data > stack_a.top->next->data)
-        ft_swap_stack(&stack_a, "sa");
-    ft_print_stack(stack_a);
-
-
+	current = x->top;
+	while (current)
+	{
+		current->index = -1;
+		current = current->next;
+	}
+	index = 0;
+	current = get_next_min(x);
+	while (current)
+	{
+		current->index = index;
+		*(int *)current->content = index++;
+		current = get_next_min(x);
+	}
 }
 
+void	algo(t_stack *a, t_stack *b)
+{
+	int	i;
+	int	j;
+	int	size;
+	int	max_bits;
+
+	normalize_stack_range(a);
+	i = 0;
+	size = ft_lstsize(a->top);
+	max_bits = get_max_bits(a);
+	while (i < max_bits)
+	{
+		j = 0;
+		while (j++ < size)
+		{
+			if (((*(int *)a->top->content >> i) & 1) == 1)
+				rotate(a, "ra");
+			else
+				push(a, b, 'b');
+		}
+		while (ft_lstsize(b->top) != 0)
+			push(a, b, 'a');
+		if (is_sorted(a))
+			break ;
+		i++;
+	}
+}
+
+int	main(int ac, char **av)
+{
+	t_stack	a;
+	t_stack	b;
+	int		size;
+	int		min;
+	int		max;
+
+	a = {NULL};
+	b = {NULL};
+	check_args(ac, av, &a);
+	normalize_stack_range(&a);
+	size = ft_lstsize(a.top);
+	if (!is_sorted(&a))
+	{
+		if (size == 3)
+		{
+			find_limits(a, &min, &max);
+			algo_3(&a, min, max);
+		}
+		else if (size == 5)
+			algo_5(&a, &b);
+		else
+			algo(&a, &b);
+	}
+}

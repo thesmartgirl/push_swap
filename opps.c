@@ -1,100 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   opps.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 18:15:33 by ataan             #+#    #+#             */
+/*   Updated: 2025/02/05 18:15:36 by ataan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void swap(t_stack *stack_x, char *op,int flag)
+void	swap(t_stack *stack_x, char *op);
+void	push(t_stack *a, t_stack *b, char op);
+void	rotate(t_stack *x, char *op);
+void	r_rotate(t_stack *x, char *op);
+
+void	swap(t_stack *stack_x, char *op)
 {
-    if (!stack_x->top || !stack_x->top->next)
-        return;
-    if (flag == 1)
-        ft_printf("%s\n", op);
-    void *temp;
-    temp = stack_x->top->content;
-    stack_x->top->content = stack_x->top->next->content;
-    stack_x->top->next->content = temp;
+	void	*temp;
+
+	if (!stack_x->top || !stack_x->top->next)
+		return ;
+	ft_printf("%s\n", op);
+	temp = stack_x->top->content;
+	stack_x->top->content = stack_x->top->next->content;
+	stack_x->top->next->content = temp;
 }
 
-void ss(t_stack *a, t_stack *b)
+void	push(t_stack *a, t_stack *b, char op)
 {
-    printf("ss\n");
-    swap(a, "", 0);
-    swap(b, "", 0);
+	t_list	*temp;
+	t_list	*temp;
+
+	if (op == 'a')
+	{
+		if (b->top == NULL)
+			return ;
+		ft_printf("pa\n");
+		ft_lstadd_front(&a->top, ft_lstnew(b->top->content));
+		temp = b->top->next;
+		free(b->top);
+		b->top = temp;
+	}
+	if (op == 'b')
+	{
+		if (a->top == NULL)
+			return ;
+		ft_printf("pb\n");
+		ft_lstadd_front(&b->top, ft_lstnew(a->top->content));
+		temp = a->top->next;
+		free(a->top);
+		a->top = temp;
+	}
 }
 
-void push(t_stack *a, t_stack *b, char op)
+void	rotate(t_stack *x, char *op)
 {
-    if(op == 'a')
-    {
-        if(b->top == NULL)
-            return;
-        ft_printf("pa\n");
-        ft_lstadd_front(&a->top, ft_lstnew(b->top->content));
-        t_list *temp = b->top->next;
-        free(b->top);
-        b->top = temp;
-    }
-    if(op == 'b')
-    {
-        if(a->top == NULL)
-            return;
-        ft_printf("pb\n");
-        ft_lstadd_front(&b->top, ft_lstnew(a->top->content));
-        t_list *temp = a->top->next;
-        free(a->top);
-        a->top = temp;
-    }
-}
-// void rotate(t_stack *x, char *op)
-// {
-//     ft_printf("%s\n", op) ;
+	t_list	*last;
 
-//     t_list  temp;
-//     temp.content = x->top->content;
-
-//     *(int *)x->top->content = *(int *)x->top->next->content;
-    
-//     x->top->next->content = temp.content;
-// }
-
-void rotate(t_stack *x, char *op, int flag)
-{
-        if(x->top == NULL || x->top->next == NULL)
-            return;
-        if (flag == 1)
-            ft_printf("%s\n", op);
-        t_list *last = x->top; // stack a
-        while(last->next)
-            last = last->next; // 9
-        
-        last->next = x->top; // NULL -> 1 234567891
-        x->top = x->top->next; // 1 -> 2 23456789
-        last->next->next = NULL; // element 10, 11 = NULL;
+	if (x->top == NULL || x->top->next == NULL)
+		return ;
+	ft_printf("%s\n", op);
+	last = x->top;
+	while (last->next)
+		last = last->next;
+	last->next = x->top;
+	x->top = x->top->next;
+	last->next->next = NULL;
 }
 
-void rr(t_stack *a, t_stack *b)
+void	r_rotate(t_stack *x, char *op)
 {
-    ft_printf("rr\n");
-    rotate(a, "" , 0);
-    rotate(b, "" , 0);
-}
+	t_list	*last;
+	t_list	*tmp;
 
-void r_rotate(t_stack *x, char *op, int flag)
-{
-        if(x->top == NULL || x->top->next == NULL)
-            return;
-        if (flag == 1)
-            ft_printf("%s\n", op);
-        t_list *last = x->top; // stack a
-        t_list *tmp;
-        while(last->next->next)
-            last = last->next; // 9
-        tmp = last->next; //4 
-        tmp->next = x->top;
-        last->next = NULL; // 3 -> NULL
-        x->top = tmp;
-}
-
-void rrr(t_stack *a, t_stack *b, char op)
-{
-    ft_printf("rrr\n");
-    r_rotate(a, "", 0);
-    r_rotate(b, "", 0);
+	if (x->top == NULL || x->top->next == NULL)
+		return ;
+	ft_printf("%s\n", op);
+	last = x->top;
+	while (last->next->next)
+		last = last->next;
+	tmp = last->next;
+	tmp->next = x->top;
+	last->next = NULL;
+	x->top = tmp;
 }
