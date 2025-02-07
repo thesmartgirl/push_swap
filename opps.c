@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   opps.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 18:15:33 by ataan             #+#    #+#             */
-/*   Updated: 2025/02/05 18:15:36 by ataan            ###   ########.fr       */
+/*   Updated: 2025/02/07 13:01:42 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	swap(t_stack *stack_x, char *op)
 
 void	push(t_stack *a, t_stack *b, char op)
 {
-	t_list	*temp;
 	t_list	*temp;
 
 	if (op == 'a')

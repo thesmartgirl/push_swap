@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:20:32 by ataan             #+#    #+#             */
-/*   Updated: 2025/02/05 18:15:18 by ataan            ###   ########.fr       */
+/*   Updated: 2025/02/07 18:14:37 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	has_duplicates(t_stack *stack);
 void	check_args(int ac, char **av, t_stack *stack_x);
 
 /*
-    takes a string representing a number (snum) 
+	takes a string representing a number (snum)
 	and checks if it can fit in an integer variable
 */
 void	int_check(char *snum)
@@ -29,18 +29,22 @@ void	int_check(char *snum)
 
 	i = 0;
 	num = 0;
+	if (snum[0] == '-' && snum[1] == '\0')
+		ft_close("- Error");
+	if (ft_strlen(snum) > 11)
+		ft_close("number is out of INT range");
 	while (snum[i])
 	{
 		num = num * 10 + (snum[i] - '0');
 		i++;
 	}
-	if (num >= INT_MAX)
-		ft_close("number is greater than INT_MAX");
+	if (num > INT_MAX || num < INT_MIN)
+		ft_close("number is out of INT range");
 }
 
 /*
-    makes sure av contains only digits, spaces and - sign
-    makes sure the numbers in av can fit in an integer
+	makes sure av contains only digits, spaces and - sign
+	makes sure the numbers in av can fit in an integer
 */
 void	check_av(char **av)
 {
@@ -63,7 +67,7 @@ void	check_av(char **av)
 }
 
 /*
-    loads the list of numbers from av into the stack
+	loads the list of numbers from av into the stack
 */
 void	load_stack(t_stack *stack_x, char **av)
 {
@@ -83,7 +87,7 @@ void	load_stack(t_stack *stack_x, char **av)
 }
 
 /*
-    Function to check for duplicates in a stack
+	Function to check for duplicates in a stack
 */
 bool	has_duplicates(t_stack *stack)
 {
@@ -108,13 +112,13 @@ bool	has_duplicates(t_stack *stack)
 }
 
 /*
-    the following arg checks are performed:
-    - if no numbers are provided, exit and retrun the prompt to user
-    - check_av: 
-        make sure only digits, spaces, and - sign are entered. 
-        make sure the numbers will fit in an int.
-    - load the numbers to the stack and verify it has no duplicates:
-        if dupes are found, free the stack, print error, and exit
+	the following arg checks are performed:
+	- if no numbers are provided, exit and retrun the prompt to user
+	- check_av:
+		make sure only digits, spaces, and - sign are entered.
+		make sure the numbers will fit in an int.
+	- load the numbers to the stack and verify it has no duplicates:
+		if dupes are found, free the stack, print error, and exit
 */
 void	check_args(int ac, char **av, t_stack *stack_x)
 {

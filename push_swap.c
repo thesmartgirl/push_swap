@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:27:28 by ataan             #+#    #+#             */
-/*   Updated: 2025/02/05 18:16:07 by ataan            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:25:17 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /*
-    loops through a stack of positive integers to find its maximum,
-    then finds out how many bits are needed to represent it in binary form
-    - works only with positive numbers...
-    - doesn't matter because we normalize data
+	loops through a stack of positive integers to find its maximum,
+	then finds out how many bits are needed to represent it in binary form
+	- works only with positive numbers...
+	- doesn't matter because we normalize data
 */
 static int	get_max_bits(t_stack *x)
 {
@@ -39,7 +39,7 @@ static int	get_max_bits(t_stack *x)
 }
 
 /*
-    finds the next minimum value of the stack.
+	finds the next minimum value of the stack.
 	i.e the next number is ascending order.
 */
 static t_list	*get_next_min(t_stack *x)
@@ -64,7 +64,7 @@ static t_list	*get_next_min(t_stack *x)
 }
 
 /*
-    
+
 */
 void	normalize_stack_range(t_stack *x)
 {
@@ -124,8 +124,8 @@ int	main(int ac, char **av)
 	int		min;
 	int		max;
 
-	a = {NULL};
-	b = {NULL};
+	a.top = NULL;
+	b.top = NULL;
 	check_args(ac, av, &a);
 	normalize_stack_range(&a);
 	size = ft_lstsize(a.top);
@@ -141,4 +141,6 @@ int	main(int ac, char **av)
 		else
 			algo(&a, &b);
 	}
+	free_stack(&a);
+	free_stack(&b);
 }

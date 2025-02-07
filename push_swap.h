@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 16:18:05 by ataan             #+#    #+#             */
-/*   Updated: 2025/02/05 17:59:21 by ataan            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:15:35 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ void		load_stack(t_stack *stack_x, char **av);
 bool		has_duplicates(t_stack *stack);
 void		check_args(int ac, char **av, t_stack *stack_x);
 
-void		find_limits(t_stack a, int *min, int *max);
 void		normalize_stack_range(t_stack *x);
+void		algo(t_stack *a, t_stack *b);
+
+void		find_limits(t_stack a, int *min, int *max);
 void		algo_3(t_stack *a, int min, int max);
 void		algo_5(t_stack *a, t_stack *b);
-void		algo(t_stack *a, t_stack *b);
+void		algo_3_desc(t_stack *b, int min, int max);
 
 void		swap(t_stack *stack_x, char *op);
 void		push(t_stack *a, t_stack *b, char op);

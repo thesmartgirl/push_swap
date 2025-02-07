@@ -19,9 +19,9 @@ void	print_stack(t_stack *x);
 int		is_sorted(t_stack *x);
 
 /*
-    prints a stack of decimals starting from the top.
-    numbers are separated by a space.
-    a new line is added at the end.
+	prints a stack of decimals starting from the top.
+	numbers are separated by a space.
+	a new line is added at the end.
 */
 void	print_stack(t_stack *x)
 {
@@ -37,9 +37,9 @@ void	print_stack(t_stack *x)
 }
 
 /*
-    checks if stack is sorted in ascending order
-    return value: 1 for a sorted stack, 0 otherwise
-    a stack of 0 to 1 elements is already sorted
+	checks if stack is sorted in ascending order
+	return value: 1 for a sorted stack, 0 otherwise
+	a stack of 0 to 1 elements is already sorted
 */
 int	is_sorted(t_stack *x)
 {
@@ -58,7 +58,7 @@ int	is_sorted(t_stack *x)
 }
 
 /*
-    prints an err message and exits with EXIT_FAILURE
+	prints an err message and exits with EXIT_FAILURE
 */
 void	ft_close(char *err)
 {
@@ -67,9 +67,9 @@ void	ft_close(char *err)
 }
 
 /*
-    free the memory allocated to a double char array.
-    free all elements.
-    free the array pointer.
+	free the memory allocated to a double char array.
+	free all elements.
+	free the array pointer.
 */
 void	clean_array(char **arr)
 {
@@ -85,7 +85,7 @@ void	clean_array(char **arr)
 }
 
 /*
-    Function to free all memory in the stack
+	Function to free all memory in the stack
 */
 void	free_stack(t_stack *stack)
 {

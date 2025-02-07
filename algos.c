@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algos.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <ataan@student.42amman.com>          +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 16:46:06 by ataan             #+#    #+#             */
-/*   Updated: 2025/02/05 18:14:30 by ataan            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:14:08 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	find_limits(t_stack a, int *min, int *max);
 void	algo_3(t_stack *a, int min, int max);
 void	algo_5(t_stack *a, t_stack *b);
-void	insertion_sort(t_stack *a, t_stack *b, int min, int max);
+void	algo_3_desc(t_stack *b, int min, int max);
 
 void	find_limits(t_stack a, int *min, int *max)
 {
@@ -31,7 +31,7 @@ void	find_limits(t_stack a, int *min, int *max)
 	}
 }
 
-/*sorts 3 elements in 3 moves*/
+/*sorts stak a of 3 elements in 3 moves*/
 void	algo_3(t_stack *a, int min, int max)
 {
 	if (*(int *)a->top->content == min)
@@ -61,45 +61,54 @@ void	algo_3(t_stack *a, int min, int max)
 	}
 }
 
-void	insertion_sort(t_stack *a, t_stack *b, int min, int max)
+/*sorts stack b of 3 elements in descending order 3 moves or less*/
+void	algo_3_desc(t_stack *b, int min, int max)
 {
-	int	i;
-
-	i = 0;
-	while (b->top != NULL)
+	if (*(int *)b->top->content == max)
 	{
-		if (*(int *)b->top->content < *(int *)a->top->content)
-			push(a, b, 'a');
-		else
+		if ((*(int *)b->top->next->content == min))
 		{
-			if (*(int *)b->top->content > max)
-			{
-				push(a, b, 'a');
-				rotate(a, "ra");
-			}
-			else if (*(int *)b->top->content < min)
-				push(a, b, 'a');
-			else
-			{
-				rotate(a, "ra");
-				i++;
-			}
+			rotate(b, "rb");
+			swap(b, "sb");
+			r_rotate(b, "rrb");
 		}
+		return ;
 	}
-	while (i-- > 0)
-		r_rotate(a, "rra");
+	else if (*(int *)b->top->content == min)
+	{
+		rotate(b, "rb");
+		if (*(int *)b->top->content != max)
+			swap(b, "sb");
+		return ;
+	}
+	else
+	{
+		if (*(int *)b->top->next->content != min)
+			swap(b, "sb");
+		else
+			r_rotate(b, "rrb");
+		return ;
+	}
 }
 
 void	algo_5(t_stack *a, t_stack *b)
 {
-	int	min;
-	int	max;
-
-	while (ft_lstsize(a->top) > 3)
-		push(a, b, 'b');
-	if (*(int *)b->top->content > *(int *)b->top->next->content)
-		swap(b, "sb");
-	find_limits(*a, &min, &max);
-	algo_3(a, 0, 2);
-	insertion_sort(a, b, min, max);
+	while (a->top)
+	{
+		if (*(int *)a->top->content == 0 || *(int *)a->top->content == 4)
+			rotate(a, "ra");
+		else
+			push(a, b, 'b');
+		if (ft_lstsize(b->top) == 3)
+			break ;
+	}
+	if (*(int *)a->top->content < *(int *)a->top->next->content)
+	{
+		rotate(a, "ra");
+	}
+	algo_3_desc(b, 1, 3);
+	push(a, b, 'a');
+	push(a, b, 'a');
+	push(a, b, 'a');
+	r_rotate(a, "rra");
 }
