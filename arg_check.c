@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:20:32 by ataan             #+#    #+#             */
-/*   Updated: 2025/02/07 18:14:37 by ataan            ###   ########.fr       */
+/*   Updated: 2025/02/09 21:18:51 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,23 @@ void	int_check(char *snum)
 	i = 0;
 	num = 0;
 	if (snum[0] == '-' && snum[1] == '\0')
-		ft_close("- Error");
-	if (ft_strlen(snum) > 11)
-		ft_close("number is out of INT range");
+		ft_close("Error");
+	if (snum[0] == '-')
+		i++;
+	while (snum[i] == '0')
+		i++;
+	if (i < 1)
+		if (ft_strlen(snum) > 11)
+			ft_close("Error");
 	while (snum[i])
 	{
 		num = num * 10 + (snum[i] - '0');
+		if(snum[i] == '-')
+			ft_close("Error");
 		i++;
 	}
 	if (num > INT_MAX || num < INT_MIN)
-		ft_close("number is out of INT range");
+		ft_close("Error");
 }
 
 /*
@@ -58,7 +65,7 @@ void	check_av(char **av)
 		while (av[i][j])
 		{
 			if (!ft_isdigit(av[i][j]) && av[i][j] != ' ' && av[i][j] != '-')
-				ft_close("its not a digit");
+				ft_close("Error");
 			j++;
 		}
 		int_check(av[i]);
@@ -129,6 +136,6 @@ void	check_args(int ac, char **av, t_stack *stack_x)
 	if (has_duplicates(stack_x))
 	{
 		free_stack(stack_x);
-		ft_close("dupes found.... exiting!");
+		ft_close("Error");
 	}
 }
